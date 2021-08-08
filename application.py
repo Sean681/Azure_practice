@@ -39,8 +39,7 @@ def callback():
 def handle_message(event):
     url_dict = {
       "TIBAME":"https://www.tibame.com/coursegoodjob/traffic_cli", 
-      "HELP":"https://developers.line.biz/zh-hant/docs/messaging-api/"
-      "YOUTUBE":"https://www.youtube.com/"}
+      "HELP":"https://developers.line.biz/zh-hant/docs/messaging-api/"}
 # 將要發出去的文字變成TextSendMessage
     try:
         url = url_dict[event.message.text.upper()]
