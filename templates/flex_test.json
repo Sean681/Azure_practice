@@ -1,0 +1,54 @@
+{
+  "type": "bubble",
+  "hero": {
+    "type": "image",
+    "url": "https://cdn.shopify.com/s/files/1/0107/2706/3618/files/CR7_LOGO_2.png?height=628&pad_color=ffffff&v=1572357200&width=1200",
+    "size": "full",
+    "aspectRatio": "20:13",
+    "aspectMode": "cover",
+    "action": {
+      "type": "uri",
+      "uri": "http://linecorp.com/"
+    }
+  },
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "Words of wisdom",
+        "wrap": true,
+        "color": "#FFFFFF",
+        "size": "lg"
+      }
+    ]
+  },
+  "footer": {
+    "type": "box",
+    "layout": "vertical",
+    "spacing": "sm",
+    "contents": [
+      {
+        "type": "button",
+        "style": "primary",
+        "height": "sm",
+        "action": {
+          "type": "uri",
+          "label": "THIS A BUTTOM",
+          "uri": "https://github.com/"
+        },
+        "color": "#201E3C"
+      }
+    ],
+    "flex": 0
+  },
+  "styles": {
+    "body": {
+      "backgroundColor": "#33305E"
+    },
+    "footer": {
+      "backgroundColor": "#33305E"
+    }
+  }
+}
