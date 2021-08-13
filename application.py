@@ -43,10 +43,10 @@ def handle_message(event):
       "TIBAME":"https://www.tibame.com/coursegoodjob/traffic_cli",
       "HELP":"https://developers.line.biz/zh-hant/docs/messaging-api/"}
 # 將要發出去的文字變成TextSendMessage
-    try:
+    if event.message.text.upper() in url_dict.keys():
         url = url_dict[event.message.text.upper()]
         message = TextSendMessage(text=url)
-    except:
+    else:
         message = TextSendMessage(text=event.message.text)
 # 回覆訊息
     LINE_BOT.reply_message(event.reply_token, message)
