@@ -42,7 +42,8 @@ def handle_message(event):
     url_dict = {
       "TIBAME":"https://www.tibame.com/coursegoodjob/traffic_cli",
       "HELP":"https://developers.line.biz/zh-hant/docs/messaging-api/",
-      "YOUTUBE":"https://www.youtube.com/"}
+      "YOUTUBE":"https://www.youtube.com/",
+      "TEST":"https://www.planetsport.com/image-library/square/500/r/ronaldo-roma-2021.jpg"}
 # 將要發出去的文字變成TextSendMessage
     if event.message.text.upper() in url_dict.keys():
         url = url_dict[event.message.text.upper()]
@@ -56,9 +57,6 @@ def handle_message(event):
            event.reply_token, 
            [FlexSendMessage(alt_text="Report", contents=bubble)]
         )
-
-    elif event.message.text.upper() == "TEST":
-       message = "https://www.planetsport.com/image-library/square/500/r/ronaldo-roma-2021.jpg" 
 
     else:
         message = TextSendMessage(text=event.message.text)
