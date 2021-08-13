@@ -60,7 +60,8 @@ def handle_message(event):
     elif event.message.text.upper() == "EYE BLEACH":
         message = {
           "type": "image",
-          "originalContentUrl": "https://www.planetsport.com/image-library/square/500/r/ronaldo-roma-2021.jpg"
+          "originalContentUrl": "https://www.planetsport.com/image-library/square/500/r/ronaldo-roma-2021.jpg",
+          "previewImageUrl": "https://www.planetsport.com/image-library/square/500/r/ronaldo-roma-2021.jpg"
         }
 
     else:
