@@ -41,12 +41,13 @@ def callback():
 def handle_message(event):
     url_dict = {
       "TIBAME":"https://www.tibame.com/coursegoodjob/traffic_cli",
-      "HELP":"https://developers.line.biz/zh-hant/docs/messaging-api/"}
+      "HELP":"https://developers.line.biz/zh-hant/docs/messaging-api/",
+      "YOUTUBE":"https://www.youtube.com/"}
 # 將要發出去的文字變成TextSendMessage
     if event.message.text.upper() in url_dict.keys():
         url = url_dict[event.message.text.upper()]
         message = TextSendMessage(text=url)
-    elif event.message.text.upper() == "YOUTUBE":
+    elif event.message.text.upper() == "WISDOM":
         with open("templates/flex_test.json", "r") as f_r:
             bubble = json.load(f_r)
         f_r.close()
