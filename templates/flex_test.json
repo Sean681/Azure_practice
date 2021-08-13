@@ -51,4 +51,45 @@
       "backgroundColor": "#33305E"
     }
   }
+ "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "Words of wisdom",
+        "wrap": true,
+        "color": "#FFFFFF",
+        "size": "lg"
+      }
+    ]
+  },
+  "footer": {
+    "type": "box",
+    "layout": "vertical",
+    "spacing": "sm",
+    "contents": [
+      {
+        "type": "button",
+        "style": "primary",
+        "height": "sm",
+        "action": {
+          "type": "uri",
+          "label": "THIS A BUTTOM",
+          "uri": "https://github.com/"
+        },
+        "color": "#201E3C"
+      }
+    ],
+    "flex": 0
+  },
+  "styles": {
+    "body": {
+      "backgroundColor": "#33305E"
+    },
+    "footer": {
+      "backgroundColor": "#33305E"
+    }
+  }
+}
 }
