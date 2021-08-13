@@ -57,12 +57,8 @@ def handle_message(event):
            [FlexSendMessage(alt_text="Report", contents=bubble)]
         )
 
-    elif event.message.text.upper() == "EYE BLEACH":
-        message = {
-          "type": "image",
-          "originalContentUrl": "https://www.planetsport.com/image-library/square/500/r/ronaldo-roma-2021.jpg",
-          "previewImageUrl": "https://www.planetsport.com/image-library/square/500/r/ronaldo-roma-2021.jpg"
-        }
+    elif event.message.text.upper() == "TEST":
+       message = "https://www.planetsport.com/image-library/square/500/r/ronaldo-roma-2021.jpg" 
 
     else:
         message = TextSendMessage(text=event.message.text)
