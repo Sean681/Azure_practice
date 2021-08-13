@@ -58,6 +58,13 @@ def handle_message(event):
            [FlexSendMessage(alt_text="Report", contents=bubble)]
         )
 
+    elif event.message.text.upper() == "IMAGE":
+        message = {
+          "type": "image",
+          "originalContentUrl": "https://i.pinimg.com/280x280_RS/0e/b0/5f/0eb05fd878bbd84eef86552ad1cef71e.jpg",
+          "previewImageUrl": "https://i.pinimg.com/280x280_RS/0e/b0/5f/0eb05fd878bbd84eef86552ad1cef71e.jpg"
+        }
+
     else:
         message = TextSendMessage(text=event.message.text)
 # 回覆訊息
