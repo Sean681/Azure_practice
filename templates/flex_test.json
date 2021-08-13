@@ -2,7 +2,7 @@
   "type": "bubble",
   "hero": {
     "type": "image",
-    "url": "https://cdn.shopify.com/s/files/1/0107/2706/3618/files/CR7_LOGO_2.png?height=628&pad_color=ffffff&v=1572357200&width=1200",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Octicons-mark-github.svg/2048px-Octicons-mark-github.svg.png",
     "size": "full",
     "aspectRatio": "20:13",
     "aspectMode": "cover",
@@ -17,7 +17,7 @@
     "contents": [
       {
         "type": "text",
-        "text": "Words of wisdom",
+        "text": "GitHub",
         "wrap": true,
         "color": "#FFFFFF",
         "size": "lg"
@@ -51,45 +51,4 @@
       "backgroundColor": "#33305E"
     }
   }
- "body": {
-    "type": "box",
-    "layout": "vertical",
-    "contents": [
-      {
-        "type": "text",
-        "text": "Words of wisdom",
-        "wrap": true,
-        "color": "#FFFFFF",
-        "size": "lg"
-      }
-    ]
-  },
-  "footer": {
-    "type": "box",
-    "layout": "vertical",
-    "spacing": "sm",
-    "contents": [
-      {
-        "type": "button",
-        "style": "primary",
-        "height": "sm",
-        "action": {
-          "type": "uri",
-          "label": "THIS A BUTTOM",
-          "uri": "https://github.com/"
-        },
-        "color": "#201E3C"
-      }
-    ],
-    "flex": 0
-  },
-  "styles": {
-    "body": {
-      "backgroundColor": "#33305E"
-    },
-    "footer": {
-      "backgroundColor": "#33305E"
-    }
-  }
-}
 }
