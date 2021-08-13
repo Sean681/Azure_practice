@@ -47,6 +47,7 @@ def handle_message(event):
     if event.message.text.upper() in url_dict.keys():
         url = url_dict[event.message.text.upper()]
         message = TextSendMessage(text=url)
+
     elif event.message.text.upper() == "WISDOM":
         with open("templates/flex_test.json", "r") as f_r:
             bubble = json.load(f_r)
@@ -55,6 +56,13 @@ def handle_message(event):
            event.reply_token, 
            [FlexSendMessage(alt_text="Report", contents=bubble)]
         )
+
+    elif event.message.text.upper() == "EYE BLEACH":
+        message = {
+          "type": "image",
+          "originalContentUrl": "https://www.planetsport.com/image-library/square/500/r/ronaldo-roma-2021.jpg"
+        }
+
     else:
         message = TextSendMessage(text=event.message.text)
 # 回覆訊息
