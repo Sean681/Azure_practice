@@ -25,8 +25,8 @@ LINE_TOKEN = os.getenv("Line_token")
 LINE_BOT = LineBotApi(LINE_TOKEN)
 HANDLER = WebhookHandler(LINE_SECRET)
 # Face_recognition
-Face_client_key = os.getnev("FACE_CLIENT_KEY")
-Face_client_endpoint = os.getnev("FACE_CLIENT_ENDPOINT")
+Face_client_key = os.getenv("FACE_CLIENT_KEY")
+Face_client_endpoint = os.getenv("FACE_CLIENT_ENDPOINT")
 FACE_CLIENT = FaceClient(
   Face_client_endpoint, CognitiveServicesCredentials(Face_client_key))
 
