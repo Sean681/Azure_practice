@@ -3,5 +3,5 @@ gunicorn
 line-bot-sdk
 azure.cognitiveservices.vision.face
 azure.cognitiveservices.vision.computervision
-PIL
+azure.cognitiveservices.vision.computervision.models
 imgur_python
