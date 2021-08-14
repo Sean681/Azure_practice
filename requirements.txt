@@ -4,3 +4,4 @@ line-bot-sdk
 azure.cognitiveservices.vision.face
 azure.cognitiveservices.vision.computervision
 imgur_python
+Pillow

@@ -129,7 +129,7 @@ def handle_content_message(event):
     else:
         plate = azure_ocr(link)
         if len(plate) > 0:
-            output = "License Plate: {plate}"
+            output = f"License Plate: {plate}"
         else:
             output = "NOTHING"
     
