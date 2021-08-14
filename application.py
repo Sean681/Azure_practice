@@ -11,6 +11,7 @@ from linebot.models import (
 import json
 from datetime import datetime, timezone, timedelta
 from azure.cognitiveservices.vision.face import FaceClient
+from msrest.authentication import CognitiveServicesCredentials
 
 app = Flask(__name__)
 
@@ -28,6 +29,11 @@ Face_client_key = os.getnev("FACE_CLIENT_KEY")
 Face_client_endpoint = os.getnev("FACE_CLIENT_ENDPOINT")
 FACE_CLIENT = FaceClient(
   Face_client_endpoint, CognitiveServicesCredentials(Face_client_key))
+
+@app.route("/")
+def hello():
+    "hello world"
+    return "Hello World!!!!!"
 
 
 @app.route("/callback", methods=["POST"])
