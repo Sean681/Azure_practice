@@ -6,7 +6,8 @@ from linebot.models import (
     MessageEvent,
     TextMessage,
     TextSendMessage,
-    FlexSendMessage
+    FlexSendMessage,
+    ImageMessage
 )
 import json
 from datetime import datetime, timezone, timedelta
