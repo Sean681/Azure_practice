@@ -13,6 +13,14 @@ import json
 from datetime import datetime, timezone, timedelta
 from azure.cognitiveservices.vision.face import FaceClient
 from msrest.authentication import CognitiveServicesCredentials
+from azure.cognitiveservices.vision.computervision \
+import ComputerVisionClient
+from PIL import Image, ImageDraw, ImageFont
+from azure.cognitiveservices.vision.computervision.models \
+import OperationStatusCodes
+from imgur_python import Imgur
+import time
+import re
 
 app = Flask(__name__)
 
@@ -21,11 +29,30 @@ app = Flask(__name__)
 #     "hello world"
 #     return "Hello World!!!!!"
 
+# Line settings
 LINE_SECRET = os.getenv("Line_secret")
 LINE_TOKEN = os.getenv("Line_token")
 LINE_BOT = LineBotApi(LINE_TOKEN)
 HANDLER = WebhookHandler(LINE_SECRET)
-# Face_recognition
+# IMGUR settings
+Imgur_client_id = os.getenv("IMGUR_CLIENT_ID")
+Imgur_client_secret = os.getenv("IMGUR_CLIENT_SECRET")
+Imgur_access_token = os.getenv("IMGUR_ACCESS_TOKEN")
+Imgur_refresh_token = os.getenv("IMGUR_REFRESH_TOKEN")
+IMGUR_CONFIG = {
+  "client_id": Imgur_client_id,
+  "client_secret": Imgur_client_secret,
+  "access_token": Imgur_access_token,
+  "refresh_token": Imgur_refresh_token
+}
+IMGUR_CLIENT = Imgur(config=IMGUR_CONFIG)
+# Computer_vision settings
+Com_vision_key = os.getenv("COM_VISION_KEY")
+Com_vision_endpoint = os.getenv("COM_VISION_ENDPOINT")
+CV_CLIENT = ComputerVisionClient(
+    Com_vision_endpoint, CognitiveServicesCredentials(Com_vision_key)
+)
+# Face_recognition settings
 Face_client_key = os.getenv("FACE_CLIENT_KEY")
 Face_client_endpoint = os.getenv("FACE_CLIENT_ENDPOINT")
 FACE_CLIENT = FaceClient(
@@ -91,13 +118,20 @@ def handle_content_message(event):
             f_w.write(chunk)
     f_w.close()
     
+    image = IMGUR_CLIENT.image_upload(filename, "", "")
+    link = image["response"]["data"]["link"]
+    
     name = azure_face_recognition(filename)
     # 若有一張人臉，輸出人臉辨識結果
     if name != "":
         now = datetime.now(timezone(timedelta(hours=8))).strftime("%Y-%m-%d %H:%M")
         output = f"{name}, {now}"
     else:
-        output = "NOTHING"
+        plate = azure_ocr(link)
+        if len(plate) > 0:
+            output = "License Plate: {plate}"
+        else:
+            output = "NOTHING"
     
     message = TextSendMessage(text=output)
 
@@ -114,13 +148,10 @@ def azure_face_recognition(filename):
     )
     
     if len(detected_face) != 1:
-        return ""
-    
-    results = FACE_CLIENT.face.identify([detected_face[0].face_id], PERSON_GROUP_ID)
-    
+        return "" 
+    results = FACE_CLIENT.face.identify([detected_face[0].face_id], PERSON_GROUP_ID) 
     if len(results) == 0:
         return "unknown"
-    
     result = results[0].as_dict()
     # 找不到相像的人
     if result["candidates"][0]["confidence"] < 0.5:
@@ -128,5 +159,33 @@ def azure_face_recognition(filename):
     person = FACE_CLIENT.person_group_person.get(
         PERSON_GROUP_ID, result["candidates"][0]["person_id"]
     )
-    
     return person.name
+
+
+def azure_ocr(url):
+    
+    ocr_results = CV_CLIENT.read(url, raw=True)
+    operation_location_remote = \
+    ocr_results.headers["Operation-Location"]
+    operation_id = operation_location_remote.split("/")[-1]
+    status = ["notStarted", "running"]
+    
+    while True:
+        get_handw_text_results = \
+        CV_CLIENT.get_read_result(operation_id)
+        if get_handw_text_results.status not in status:
+            break
+        time.sleep(1)
+        
+    text = []
+    succeeded = OperationStatusCodes.succeeded
+    if get_handw_text_results.status == succeeded:
+        res = get_handw_text_results.analyze_result.read_results
+        for text_result in res:
+            for line in text_result.lines:
+                if len(line.text) <= 8:
+                    text.append(line.text)
+                    
+    r = re.compile("[0-9A-Z]{2,4}[.-]{1}[0-9A-Z]{2,4}")
+    text = list(filter(r.match, text))
+    return text[0].replace(".", "-") if len(text) > 0 else ""
