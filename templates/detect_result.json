@@ -43,7 +43,7 @@
                             {
                                 "type": "text",
                                 "text": "output",
-                                "color": "#ffffffcc",
+                                "color": "#FFFFFF",
                                 "size": "sm",
                                 "wrap": true
                             }
@@ -55,6 +55,6 @@
             }
         ],
         "paddingAll": "20px",
-        "backgroundColor": "#464F69"
+        "backgroundColor": "#33305E"
     }
 }
