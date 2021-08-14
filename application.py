@@ -9,7 +9,7 @@ from linebot.models import (
     FlexSendMessage
 )
 import json
-from datetime import datetime, timezone, timedeltaFACE
+from datetime import datetime, timezone, timedelta
 from azure.cognitiveservices.vision.face import FaceClient
 
 app = Flask(__name__)
