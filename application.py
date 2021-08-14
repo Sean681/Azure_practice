@@ -80,7 +80,7 @@ def handle_message(event):
 
 # 與Line Messaging API結合
 @HANDLER.add(MessageEvent, message=ImageMessage)
-def handler_content_message(event):
+def handle_content_message(event):
     # 先把傳來的照片存檔
     filename = f"{event.message.id}.jpg"
     message_content = LINE_BOT.get_message_content(
@@ -105,6 +105,7 @@ def handler_content_message(event):
 def azure_face_recognition(filename):
 
     PERSON_GROUP_ID = "tibame"
+
     img = open(filename, "r+b")
     detected_face = FACE_CLIENT.face.detect_with_stream(
         img, detection_model="detection_01"
