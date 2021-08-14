@@ -9,6 +9,8 @@ from linebot.models import (
     FlexSendMessage
 )
 import json
+from datetime import datetime, timezone, timedeltaFACE
+from azure.cognitiveservices.vision.face import FaceClient
 
 app = Flask(__name__)
 
@@ -21,6 +23,12 @@ LINE_SECRET = os.getenv("Line_secret")
 LINE_TOKEN = os.getenv("Line_token")
 LINE_BOT = LineBotApi(LINE_TOKEN)
 HANDLER = WebhookHandler(LINE_SECRET)
+# Face_recognition
+Face_client_key = os.getnev("FACE_CLIENT_KEY:")
+Face_client_endpoint = os.getnev("FACE_CLIENT_ENDPOINT:")
+FACE_CLIENT = FaceClient(
+  Face_client_endpoint, CognitiveServicesCredentials(Face_client_key))
+
 
 @app.route("/callback", methods=["POST"])
 def callback():
@@ -58,14 +66,55 @@ def handle_message(event):
            [FlexSendMessage(alt_text="Report", contents=bubble)]
         )
 
-    elif event.message.text.upper() == "IMAGE":
-        message = {
-          "type": "image",
-          "originalContentUrl": "https://i.pinimg.com/280x280_RS/0e/b0/5f/0eb05fd878bbd84eef86552ad1cef71e.jpg",
-          "previewImageUrl": "https://i.pinimg.com/280x280_RS/0e/b0/5f/0eb05fd878bbd84eef86552ad1cef71e.jpg"
-        }
-
     else:
         message = TextSendMessage(text=event.message.text)
 # 回覆訊息
     LINE_BOT.reply_message(event.reply_token, message)
+
+# 與Line Messaging API結合
+@HANDLER.add(MessageEvent, message=ImageMessage)
+def handler_content_message(event):
+    # 先把傳來的照片存檔
+    filename = f"{event.message.id}.jpg"
+    message_content = LINE_BOT.get_message_content(
+        event.message.id
+    )
+    with open(filename, "wb") as f_w:
+        for chunk in message_content.iter_content():
+            f_w.write(chunk)
+    f_w.close()
+    
+    name = azure_face_recognition(filename)
+    # 若有一張人臉，輸出人臉辨識結果
+    if name != "":
+        now = datetime.now(timezone(timedelta(hours=8))).strftime("%Y-%m-%d %H:%M")
+        output = f"{name}, {now}"
+    else:
+        output = "NOTHING"
+
+    LINE_BOT.reply_message(event.reply_token, output)
+
+
+def azure_face_recognition(filename):
+    img = open(filename, "r+b")
+    detected_face = FACE_CLIENT.face.detect_with_stream(
+        img, detection_model="detection_01"
+    )
+    
+    if len(detected_face) != 1:
+        return ""
+    
+    results = FACE_CLIENT.face.identify([detected_face[0].face_id], PERSON_GROUP_ID)
+    
+    if len(results) == 0:
+        return "unknown"
+    
+    result = results[0].as_dict()
+    # 找不到相像的人
+    if result["candidates"][0]["confidence"] < 0.5:
+        return "unknown"
+    person = FACE_CLIENT.person_group_person.get(
+        PERSON_GROUP_ID, result["candidates"][0]["person_id"]
+    )
+    
+    return person.name
