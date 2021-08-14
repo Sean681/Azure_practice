@@ -98,8 +98,10 @@ def handle_content_message(event):
         output = f"{name}, {now}"
     else:
         output = "NOTHING"
+    
+    message = TextSendMessage(text=output)
 
-    LINE_BOT.reply_message(event.reply_token, output)
+    LINE_BOT.reply_message(event.reply_token, message)
 
 
 def azure_face_recognition(filename):
