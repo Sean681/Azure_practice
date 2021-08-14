@@ -134,15 +134,15 @@ def handle_content_message(event):
         else:
             output = azure_describe(link)
         link = link_ob
-        with open("templates/detect_result.json", "r") as f_r:
-            bubble = json.load(f_r)
-        f_r.close()
-        bubble["body"]["contents"][0]["contents"][0]["contents"][0]["text"] = output
-        bubble["header"]["contents"][0]["contents"][0]["contents"][0]["url"] = link
-        LINE_BOT.reply_message(
-            event.reply_token, 
-            [FlexSendMessage(alt_text="Report", contents=bubble)]
-        )
+    with open("templates/detect_result.json", "r") as f_r:
+        bubble = json.load(f_r)
+    f_r.close()
+    bubble["body"]["contents"][0]["contents"][0]["contents"][0]["text"] = output
+    bubble["header"]["contents"][0]["contents"][0]["contents"][0]["url"] = link
+    LINE_BOT.reply_message(
+        event.reply_token, 
+        [FlexSendMessage(alt_text="Report", contents=bubble)]
+    )
 
 def azure_face_recognition(filename):
 
